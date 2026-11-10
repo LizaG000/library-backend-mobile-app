@@ -7,6 +7,8 @@ from src.application.schemas.books import BookSchemas
 from src.usecase.books.schemas import CreateBookFileSchemas
 from src.presentation.fastapi.routes.core.books.schemas import RequestCreateBookFileSchemas
 from src.usecase.books.create import CreateBookUsecase
+from src.usecase.books.get import GetBookUsecase
+from src.usecase.books.schemas import BookImgSchemas
 ROUTER = APIRouter(route_class=DishkaRoute)
 
 @ROUTER.post('', status_code=status.HTTP_200_OK)
@@ -25,3 +27,7 @@ async def create_book(
         image = image,
         pdf = pdf
     ))
+@ROUTER.get('', status_code=status.HTTP_200_OK)
+async def get_book(
+    usecase: FromDishka[GetBookUsecase]) -> list[BookImgSchemas]:
+    return await usecase()

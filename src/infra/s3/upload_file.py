@@ -19,7 +19,7 @@ class UploadFileService:
         folder: str,
         filename: str,
     ) -> str:
-        object_name = f"{folder}/{uuid.uuid4()}_{filename}"
+        object_name = f"{folder}/{filename}"
 
         await file.seek(0)
 

@@ -12,6 +12,7 @@ from src.config import MinioConfig
 
 from src.usecase.users.create import CreateUserUsecase
 from src.usecase.books.create import CreateBookUsecase
+from src.usecase.books.get import GetBookUsecase
 
 class MainProvider(Provider):
     scope = Scope.REQUEST
@@ -36,5 +37,6 @@ class MainProvider(Provider):
     _get_usecases = provide_all(
         CreateUserUsecase,
         CreateBookUsecase,
+        GetBookUsecase,
     )
 

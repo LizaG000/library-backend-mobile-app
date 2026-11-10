@@ -12,3 +12,11 @@ class CreateBookFileSchemas(BaseModel):
 
     image: UploadFile
     pdf: UploadFile
+class BookImgSchemas(BaseModel):
+    id: UUID
+    name: str
+    author_first_name: str
+    author_last_name: str
+    author_middle_name: str
+    year: int
+    image: str

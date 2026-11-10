@@ -1,3 +1,6 @@
+
+from datetime import timedelta
+
 from minio import Minio
 from starlette.concurrency import run_in_threadpool
 
@@ -5,27 +8,22 @@ from src.config import MinioConfig
 
 
 class DownloadFileService:
-    def __init__(self, config: MinioConfig):
+    def __init__(self, config: MinioConfig, client: Minio):
         self.config = config
-        self.client = Minio(
-            endpoint=config.endpoint,
-            access_key=config.access_key,
-            secret_key=config.secret_key,
-            secure=config.secure,
-        )
+        self.client = client
 
-    async def download_file(self, object_name: str) -> bytes:
+    async def download_file(
+        self,
+        folder: str,
+        name: str,
+    ) -> str:
+        object_name = f"{folder}/{name}"
 
-        def download():
-            response = self.client.get_object(
-                bucket_name=self.config.minio.bucket_name,
+        def get_url():
+            return self.client.presigned_get_object(
+                bucket_name=self.config.bucket_name,
                 object_name=object_name,
+                expires=timedelta(hours=1),
             )
 
-            try:
-                return response.read()
-            finally:
-                response.close()
-                response.release_conn()
-
-        return await run_in_threadpool(download)
+        return await run_in_threadpool(get_url)
