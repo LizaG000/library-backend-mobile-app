@@ -1,0 +1,57 @@
+version: "3.3"
+
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: ./deploy/Dockerfile
+    environment:
+      CONFIG_PATH: /app/configs/config.toml
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../src:/app/src:ro
+      - ../src/infra/postgres/migration/versions:/app/src/infra/postgres/migration/versions:rw
+
+  database:
+    image: postgres:15.2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.co
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - database
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+  
+  minio:
+    image: quay.io/minio/minio:latest
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+
+volumes:
+  pgdata:
+  pgadmin_data:
+  minio_data:
