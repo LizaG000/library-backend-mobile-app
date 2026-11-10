@@ -14,6 +14,8 @@ from src.usecase.users.create import CreateUserUsecase
 from src.usecase.books.create import CreateBookUsecase
 from src.usecase.books.get import GetBookUsecase
 from src.usecase.books.get_by_id import GetBookByIDUsecase
+from src.usecase.progress.create import CreateProgressUsecase
+from src.usecase.progress.update import UpdateProgressUsecase
 
 class MainProvider(Provider):
     scope = Scope.REQUEST
@@ -40,5 +42,7 @@ class MainProvider(Provider):
         CreateBookUsecase,
         GetBookUsecase,
         GetBookByIDUsecase,
+        CreateProgressUsecase,
+        UpdateProgressUsecase,
     )
 
