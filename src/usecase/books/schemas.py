@@ -12,6 +12,7 @@ class CreateBookFileSchemas(BaseModel):
 
     image: UploadFile
     pdf: UploadFile
+
 class BookImgSchemas(BaseModel):
     id: UUID
     name: str
@@ -20,3 +21,19 @@ class BookImgSchemas(BaseModel):
     author_middle_name: str
     year: int
     image: str
+    created_at: datetime
+    updated_at: datetime
+
+
+class BookAllSchemas(BaseModel):
+    id: UUID
+    name: str
+    author_first_name: str
+    author_last_name: str
+    author_middle_name: str
+    year: int
+    image: str
+    pdf: str
+    current_page: int|None
+    created_at: datetime
+    updated_at: datetime

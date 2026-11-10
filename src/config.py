@@ -26,6 +26,7 @@ class DatabaseConfig(BaseSchema):
 
 class MinioConfig(BaseSchema):
     endpoint: str = "minio:9000"
+    public_endpoint: str = "localhost:9000"
     access_key: str = "minioadmin"
     secret_key: str = "minioadmin123"
     bucket_name: str = "library"

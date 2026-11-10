@@ -12,6 +12,14 @@ class DownloadFileService:
         self.config = config
         self.client = client
 
+        self.public_client = Minio(
+            endpoint=config.public_endpoint,
+            access_key=config.access_key,
+            secret_key=config.secret_key,
+            secure=config.secure,
+            region="us-east-1",
+        )
+
     async def download_file(
         self,
         folder: str,
@@ -20,7 +28,7 @@ class DownloadFileService:
         object_name = f"{folder}/{name}"
 
         def get_url():
-            return self.client.presigned_get_object(
+            return self.public_client.presigned_get_object(
                 bucket_name=self.config.bucket_name,
                 object_name=object_name,
                 expires=timedelta(hours=1),

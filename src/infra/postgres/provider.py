@@ -14,6 +14,7 @@ from src.infra.postgres.gateways.base import UpdateReturningGate
 from src.infra.postgres.gateways.base import DeleteGate
 from src.infra.postgres.gateways.base import DeleteReturningGate
 from src.infra.postgres.gateways.books import GetBookIMGGate
+from src.infra.postgres.gateways.books import GetBookByIDGate
 
 TTable = TypeVar("TTable")
 TEntity = TypeVar("TEntity")
@@ -178,4 +179,5 @@ class PostgresProvider(Provider):
 
     _get_gate = provide_all(
             GetBookIMGGate,
+            GetBookByIDGate,
         )
